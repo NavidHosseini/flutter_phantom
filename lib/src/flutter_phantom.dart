@@ -87,7 +87,7 @@ class FlutterPhantom {
     };
     final getData = encryptPayload(payload);
     final nonce = getData[0];
-    final encryptedPayload = getData[1];
+    final ByteList encryptedPayload = getData[1];
 
     return Uri(
       scheme: scheme,
@@ -98,7 +98,7 @@ class FlutterPhantom {
             web3.base58Encode(dAppPublicKey.asTypedList),
         "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': web3.base58Encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload.asTypedList)
       },
     );
   }
@@ -175,7 +175,7 @@ class FlutterPhantom {
     };
     final getData = encryptPayload(payLoad);
     final nonce = getData[0];
-    final encryptedPayload = getData[1];
+    final ByteList encryptedPayload = getData[1];
 
     Uri launchUri = Uri(
       scheme: scheme,
@@ -186,7 +186,7 @@ class FlutterPhantom {
             web3.base58Encode(dAppPublicKey.asTypedList),
         "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        "payload": web3.base58Encode(encryptedPayload),
+        "payload": web3.base58Encode(encryptedPayload.asTypedList),
       },
     );
     _sharedSecret = null;
@@ -201,7 +201,7 @@ class FlutterPhantom {
     };
     final getData = encryptPayload(payload);
     final nonce = getData[0];
-    final encryptedPayload = getData[1];
+    final ByteList encryptedPayload = getData[1];
 
     return Uri(
       scheme: scheme,
@@ -212,7 +212,7 @@ class FlutterPhantom {
             web3.base58Encode(dAppPublicKey.asTypedList),
         "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': web3.base58Encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload.asTypedList)
       },
     );
   }
@@ -222,7 +222,7 @@ class FlutterPhantom {
     var payload = {"session": _session, "transactions": transactions};
     final getData = encryptPayload(payload);
     final nonce = getData[0];
-    final encryptedPayload = getData[1];
+    final ByteList encryptedPayload = getData[1];
 
     return Uri(
       scheme: 'https',
@@ -233,7 +233,7 @@ class FlutterPhantom {
             web3.base58Encode(dAppPublicKey.asTypedList),
         "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': web3.base58Encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload.asTypedList)
       },
     );
   }
@@ -247,7 +247,7 @@ class FlutterPhantom {
 
     final getData = encryptPayload(payload);
     final nonce = getData[0];
-    final encryptedPayload = getData[1];
+    final ByteList encryptedPayload = getData[1];
 
     return Uri(
       scheme: scheme,
@@ -258,7 +258,7 @@ class FlutterPhantom {
             web3.base58Encode(Uint8List.fromList(dAppPublicKey)),
         "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': web3.base58Encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload.asTypedList)
       },
     );
   }
@@ -299,7 +299,8 @@ class FlutterPhantom {
     final nonce = PineNaClUtils.randombytes(24);
     List<int> list = utf8.encode(jsonEncode(payload));
     Uint8List bytes = Uint8List.fromList(list);
-    var encryptedPayload = _sharedSecret!.encrypt(bytes, nonce: nonce);
+    var encryptedPayload =
+        _sharedSecret!.encrypt(bytes, nonce: nonce).cipherText;
     return [nonce, encryptedPayload];
   }
 }
