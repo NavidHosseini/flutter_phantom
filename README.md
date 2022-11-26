@@ -21,7 +21,7 @@ We need to have deeplink for our application for handling returned data from pha
 
 ## Usage
 
-add [`flutter_phantom`](https://pub.dev/packages/)  to  pubspec.yaml
+add [`flutter_phantom`](https://pub.dev/packages/flutter_phantom)  to  pubspec.yaml
 
 ```dart
 import 'package:phantom_connect/phantom_connect.dart';
@@ -41,4 +41,4 @@ initialise required Parameters.
 
 ## Example
 
-- An example of how to use this package [here](https://github.com/).
+- An example of how to use this package [here](https://github.com/NavidHosseini/flutter_phantom-demo).
