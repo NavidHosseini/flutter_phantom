@@ -1,39 +1,44 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# flutter_phantom
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+- flutter_phantomt is a package based on react native phantom wallet example that allows users to connect to Phantom Wallet from their Application.
+- This package is used to generate deeplink urls for Phantom Wallet to connect to your application.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+This package has all these provider methods implemented for easy to use:
 
-## Getting started
+- [Connect](https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/connect)
+- [Disconnect](https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/disconnect)
+- [SignAndSendTransaction](https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signandsendtransaction)
+- [SignAllTransactions](https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signalltransactions)
+- [SignTransaction](https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signtransaction)
+- [SignMessage](https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signmessage)
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Getting Started
+
+We need to have deeplink for our application for handling returned data from phantom.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+add [`flutter_phantom`](https://pub.dev/packages/)  to  pubspec.yaml
 
 ```dart
-const like = 'sample';
+import 'package:phantom_connect/phantom_connect.dart';
 ```
 
-## Additional information
+initialise required Parameters.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- `appUrl` A url used to fetch app metadata i.e. title, icon.
+- `deepLink` The URI where Phantom should redirect the user upon connection.(Deep Link)
+
+```dart
+  final FlutterPhantom phantom = FlutterPhantom(
+    appUrl: "https://phantom.app",
+    deepLink: "app://mydeapp",
+  );
+```
+
+## Example
+
+- An example of how to use this package [here](https://github.com/).
