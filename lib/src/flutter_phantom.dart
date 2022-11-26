@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:pinenacl/x25519.dart';
-import 'package:solana/base58.dart';
 import 'package:solana_web3/solana_web3.dart' as web3;
 
 /// flutter_phantom that allows users to connect to Phantom Wallet
@@ -40,7 +39,8 @@ class FlutterPhantom {
       host: host,
       path: '/ul/v1/connect',
       queryParameters: {
-        'dapp_encryption_public_key': base58encode(dAppPublicKey.toUint8List()),
+        'dapp_encryption_public_key':
+            web3.base58Encode(dAppPublicKey.toUint8List()),
         'cluster': cluster,
         'app_url': appUrl,
         'redirect_link': "$deepLink?handleQuery=$redirect",
@@ -67,7 +67,7 @@ class FlutterPhantom {
     Box sharedSecretDapp = Box(
         myPrivateKey: _dAppSecretKey,
         theirPublicKey:
-            PublicKey(Uint8List.fromList(base58decode(phantomPKey))));
+            PublicKey(Uint8List.fromList(web3.base58Decode(phantomPKey))));
 
     _sharedSecret = sharedSecretDapp;
     Map onConnectData = decryptPayload(data, nonce, sharedSecretDapp);
@@ -83,7 +83,7 @@ class FlutterPhantom {
       {required web3.Buffer transaction, required String redirect}) {
     var payload = {
       "session": _session,
-      "transaction": base58encode(transaction.asUint8List()),
+      "transaction": web3.base58Encode(transaction.asUint8List()),
     };
     final getData = encryptPayload(payload);
     final nonce = getData[0];
@@ -94,10 +94,11 @@ class FlutterPhantom {
       host: host,
       path: '/ul/v1/signAndSendTransaction',
       queryParameters: {
-        "dapp_encryption_public_key": base58encode(dAppPublicKey.asTypedList),
-        "nonce": base58encode(nonce),
+        "dapp_encryption_public_key":
+            web3.base58Encode(dAppPublicKey.asTypedList),
+        "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': base58encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload)
       },
     );
   }
@@ -133,7 +134,7 @@ class FlutterPhantom {
 
     Map<String, dynamic> transactionEncode =
         onSignTransactionReceiveResult.cast<String, dynamic>();
-    var transaction = base58decode(transactionEncode['transaction']);
+    var transaction = web3.base58Decode(transactionEncode['transaction']);
 
     web3.Transaction decodedTransaction =
         web3.Transaction.fromList(transaction);
@@ -158,7 +159,7 @@ class FlutterPhantom {
     List<String> listTransactionsEncode =
         List<String>.from(transactionsEncode['transactions'] as List);
     List<web3.Transaction> listTransactionsDecode = listTransactionsEncode
-        .map((e) => web3.Transaction.fromList(base58decode(e)))
+        .map((e) => web3.Transaction.fromList(web3.base58Decode(e)))
         .toList();
 
     return listTransactionsDecode;
@@ -181,10 +182,11 @@ class FlutterPhantom {
       host: host,
       path: '/ul/v1/disconnect',
       queryParameters: {
-        "dapp_encryption_public_key": base58encode(dAppPublicKey.asTypedList),
-        "nonce": base58encode(nonce),
+        "dapp_encryption_public_key":
+            web3.base58Encode(dAppPublicKey.asTypedList),
+        "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        "payload": base58encode(encryptedPayload),
+        "payload": web3.base58Encode(encryptedPayload),
       },
     );
     _sharedSecret = null;
@@ -206,10 +208,11 @@ class FlutterPhantom {
       host: host,
       path: '/ul/v1/signTransaction',
       queryParameters: {
-        "dapp_encryption_public_key": base58encode(dAppPublicKey.asTypedList),
-        "nonce": base58encode(nonce),
+        "dapp_encryption_public_key":
+            web3.base58Encode(dAppPublicKey.asTypedList),
+        "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': base58encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload)
       },
     );
   }
@@ -226,10 +229,11 @@ class FlutterPhantom {
       host: 'phantom.app',
       path: '/ul/v1/signAllTransactions',
       queryParameters: {
-        "dapp_encryption_public_key": base58encode(dAppPublicKey.asTypedList),
-        "nonce": base58encode(nonce),
+        "dapp_encryption_public_key":
+            web3.base58Encode(dAppPublicKey.asTypedList),
+        "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': base58encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload)
       },
     );
   }
@@ -238,7 +242,7 @@ class FlutterPhantom {
       {required String redirect, required String message}) {
     var payload = {
       "session": _session,
-      "message": base58encode(message.codeUnits.toUint8List()),
+      "message": web3.base58Encode(message.codeUnits.toUint8List()),
     };
 
     final getData = encryptPayload(payload);
@@ -251,10 +255,10 @@ class FlutterPhantom {
       path: 'ul/v1/signMessage',
       queryParameters: {
         "dapp_encryption_public_key":
-            base58encode(Uint8List.fromList(dAppPublicKey)),
-        "nonce": base58encode(nonce),
+            web3.base58Encode(Uint8List.fromList(dAppPublicKey)),
+        "nonce": web3.base58Encode(nonce),
         'redirect_link': "$deepLink?handleQuery=$redirect",
-        'payload': base58encode(encryptedPayload)
+        'payload': web3.base58Encode(encryptedPayload)
       },
     );
   }
@@ -281,8 +285,8 @@ class FlutterPhantom {
     if (sharedSecret.isEmpty) throw ("missing shared secret");
 
     Uint8List decryptedData = sharedSecret.decrypt(
-      ByteList(base58decode(data)),
-      nonce: Uint8List.fromList(base58decode(nonce)),
+      ByteList(web3.base58Decode(data)),
+      nonce: Uint8List.fromList(web3.base58Decode(nonce)),
     );
     if (decryptedData.isEmpty) throw ("Unable to decrypt data");
     return jsonDecode(String.fromCharCodes(decryptedData));

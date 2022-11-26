@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   pinenacl: ^0.5.1
-  solana: ^0.26.3
   solana_web3: ^0.0.2+4
 
 dev_dependencies:
