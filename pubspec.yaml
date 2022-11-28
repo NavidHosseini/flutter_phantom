@@ -1,5 +1,5 @@
 name: flutter_phantom
-description: A new Flutter for connect phantom wallet And provider methods such as Connect,Disconnect,SignAndSendTransaction,SignAllTransactions,SignTransaction,SignMessage.
+description: Flutter package for connect phantom wallet And provider methods.
 version: 1.0.0
 homepage: https://github.com/NavidHosseini/flutter_phantom.git
 
