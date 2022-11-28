@@ -1,6 +1,6 @@
 name: flutter_phantom
 description: Flutter package for connect phantom wallet And provider methods.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/NavidHosseini/flutter_phantom.git
 
 environment:
